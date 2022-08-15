@@ -16,7 +16,7 @@ describe('user routes', () => {
   beforeEach(() => {
     return setup(pool);
   });
-  it('should create a new user', async () => {
+  it('should create a new user and sign the user in', async () => {
     const newUser = {
       firstName: 'New',
       lastName: 'Account',
@@ -36,10 +36,11 @@ describe('user routes', () => {
     });
   });
 
-  it('should sign in a user', async () => {
-    await agent.post('/api/v1/users').send(bob);
-    const res = await agent.post('/api/v1/users/sessions').send(bob);
-
+  it('should sign in a user that already exists', async () => {
+    const res = await request(app).post('/api/v1/users/sessions').send({
+      email: 'db@email.com',
+      password: 'abc123',
+    });
     expect(res.status).toBe(200);
     expect(res.body.message).toEqual('Signed in successfully!');
   });

@@ -28,7 +28,8 @@ CREATE TABLE yawp_users (
 
 INSERT INTO yawp_users (first_name, last_name, email, password_hash) VALUES
 ('Test', 'User', 'test@test.com', 'notapasswordhash'),
-('Fake', 'Person', 'fake@fake.com', 'fakepasswordhash');
+('Fake', 'Person', 'fake@fake.com', 'fakepasswordhash'),
+('Dilon', 'B', 'db@email.com', '$2b$10$eqbM14Ykewm.4JXZg0rEm.YWgn8S7a4YOJcfq5KEpXTccCOfQGcly');
 
 CREATE TABLE reviews (
   id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
