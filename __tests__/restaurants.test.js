@@ -9,7 +9,7 @@ describe('restaurant and review routes', () => {
   });
 
   it('should return a list of restaurants', async () => {
-    const res = await request(app).get('api/v1/restaurants');
+    const res = await request(app).get('/api/v1/restaurants');
     expect(res.status).toBe(200);
     expect(res.body[0]).toEqual({
       id: expect.any(String),
