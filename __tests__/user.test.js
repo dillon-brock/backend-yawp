@@ -43,6 +43,25 @@ describe('backend-express-template routes', () => {
     expect(res.status).toBe(200);
     expect(res.body.message).toEqual('Signed in successfully!');
   });
+
+  it('should get list of users if user is admin', async () => {
+    const adminUser = {
+      firstName: 'In',
+      lastName: 'Charge',
+      email: 'admin',
+      password: 'topbrass',
+    };
+
+    await agent.post('/api/v1/users').send(adminUser);
+    const res = await agent.get('/api/v1/users');
+    expect(res.status).toBe(200);
+    expect(res.body[0]).toEqual({
+      id: expect.any(String),
+      firstName: expect.any(String),
+      lastName: expect.any(String),
+      email: expect.any(String),
+    });
+  });
   afterAll(() => {
     pool.end();
   });
