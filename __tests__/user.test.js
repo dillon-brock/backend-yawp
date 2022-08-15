@@ -3,6 +3,8 @@ const setup = require('../data/setup');
 const request = require('supertest');
 const app = require('../lib/app');
 
+const agent = request.agent(app);
+
 describe('backend-express-template routes', () => {
   beforeEach(() => {
     return setup(pool);
@@ -24,6 +26,21 @@ describe('backend-express-template routes', () => {
       lastName,
       email,
     });
+  });
+
+  it('should sign in a user', async () => {
+    const bob = {
+      firstName: 'Bob',
+      lastName: 'Belcher',
+      email: 'bobsburgers@email.com',
+      password: 'newbaconings',
+    };
+
+    await agent.post('/api/v1/users').send(bob);
+    const res = await agent.post('/api/v1/users/sessions').send(bob);
+
+    expect(res.status).toBe(200);
+    expect(res.body.message).toEqual('Signed in successfully!');
   });
   afterAll(() => {
     pool.end();
