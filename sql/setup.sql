@@ -22,7 +22,7 @@ CREATE TABLE yawp_users (
   id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   first_name TEXT NOT NULL,
   last_name TEXT NOT NULL,
-  email TEXT NOT NULL,
+  email TEXT UNIQUE NOT NULL,
   password_hash TEXT NOT NULL
 );
 
