@@ -25,6 +25,7 @@ describe('backend-express-template routes', () => {
       firstName,
       lastName,
       email,
+      message: 'Signed in successfully!',
     });
   });
 
