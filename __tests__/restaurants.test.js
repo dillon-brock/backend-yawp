@@ -10,6 +10,13 @@ const bob = {
   password: 'newbaconings',
 };
 
+const adminUser = {
+  firstName: 'In',
+  lastName: 'Charge',
+  email: 'admin',
+  password: 'topbrass',
+};
+
 const agent = request.agent(app);
 
 describe('restaurant and review routes', () => {
@@ -62,6 +69,46 @@ describe('restaurant and review routes', () => {
     const res = await request(app)
       .post('/api/v1/restaurants/3/reviews')
       .send(review);
+    expect(res.status).toBe(401);
+  });
+  it('should delete a review if user is admin', async () => {
+    await agent.post('/api/v1/users').send(adminUser);
+    const res = await agent.delete('/api/v1/reviews/1');
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual({
+      id: '1',
+      stars: 5,
+      description: 'Best burrito ever!!',
+      userId: '1',
+      restaurantId: '1',
+    });
+  });
+  it('should delete a review if user is the one who created the review', async () => {
+    const review = {
+      stars: 1,
+      description: 'There were no burgers on the menu',
+    };
+    await agent.post('/api/v1/users').send(bob);
+    const postedReview = await agent
+      .post('/api/v1/restaurants/2/reviews')
+      .send(review);
+    const res = await agent.delete(`/api/v1/reviews/${postedReview.id}`);
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual({
+      id: expect.any(String),
+      stars: 1,
+      description: 'There were no burgers on the menu',
+      restaurant_id: '2',
+      user_id: expect.any(String),
+    });
+  });
+  it('should give a 403 error if a non-admin user tries to delete a review they did not create', async () => {
+    await agent.post('/api/v1/users').send(bob);
+    const res = await agent.delete('/api/v1/reviews/2');
+    expect(res.status).toBe(403);
+  });
+  it('should give a 401 error if a non-authenticated user tries to delete a review', async () => {
+    const res = await request(app).delete('/api/v1/reviews/3');
     expect(res.status).toBe(401);
   });
   afterAll(() => {
