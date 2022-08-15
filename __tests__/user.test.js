@@ -5,6 +5,13 @@ const app = require('../lib/app');
 
 const agent = request.agent(app);
 
+const bob = {
+  firstName: 'Bob',
+  lastName: 'Belcher',
+  email: 'bobsburgers@email.com',
+  password: 'newbaconings',
+};
+
 describe('backend-express-template routes', () => {
   beforeEach(() => {
     return setup(pool);
@@ -30,13 +37,6 @@ describe('backend-express-template routes', () => {
   });
 
   it('should sign in a user', async () => {
-    const bob = {
-      firstName: 'Bob',
-      lastName: 'Belcher',
-      email: 'bobsburgers@email.com',
-      password: 'newbaconings',
-    };
-
     await agent.post('/api/v1/users').send(bob);
     const res = await agent.post('/api/v1/users/sessions').send(bob);
 
@@ -61,6 +61,15 @@ describe('backend-express-template routes', () => {
       lastName: expect.any(String),
       email: expect.any(String),
     });
+  });
+  it('should give a 401 error if user is not signed in and tries to view list of users', async () => {
+    const res = await request(app).get('/api/v1/users');
+    expect(res.status).toBe(401);
+  });
+  it('should give a 403 error if user is signed in not authorized to view list of users', async () => {
+    await agent.post('/api/v1/users').send(bob);
+    const res = await agent.get('/api/v1/users');
+    expect(res.status).toBe(403);
   });
   afterAll(() => {
     pool.end();
