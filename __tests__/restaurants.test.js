@@ -83,6 +83,7 @@ describe('restaurant and review routes', () => {
       restaurantId: '1',
     });
   });
+
   it('should delete a review if user is the one who created the review', async () => {
     const review = {
       stars: 1,
@@ -92,16 +93,17 @@ describe('restaurant and review routes', () => {
     const postedReview = await agent
       .post('/api/v1/restaurants/2/reviews')
       .send(review);
-    const res = await agent.delete(`/api/v1/reviews/${postedReview.id}`);
+    const res = await agent.delete(`/api/v1/reviews/${postedReview.body.id}`);
     expect(res.status).toBe(200);
     expect(res.body).toEqual({
       id: expect.any(String),
       stars: 1,
       description: 'There were no burgers on the menu',
-      restaurant_id: '2',
-      user_id: expect.any(String),
+      restaurantId: '2',
+      userId: expect.any(String),
     });
   });
+
   it('should give a 403 error if a non-admin user tries to delete a review they did not create', async () => {
     await agent.post('/api/v1/users').send(bob);
     const res = await agent.delete('/api/v1/reviews/2');
