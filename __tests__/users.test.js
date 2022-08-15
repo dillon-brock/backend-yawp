@@ -12,7 +12,7 @@ const bob = {
   password: 'newbaconings',
 };
 
-describe('backend-express-template routes', () => {
+describe('user routes', () => {
   beforeEach(() => {
     return setup(pool);
   });
