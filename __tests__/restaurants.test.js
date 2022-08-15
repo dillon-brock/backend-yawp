@@ -18,6 +18,17 @@ describe('restaurant and review routes', () => {
       city: expect.any(String),
     });
   });
+  it('should return a restaurant with id matching params with nested reviews', async () => {
+    const res = await request(app).get('api/v1/restaurants/1');
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual({
+      id: '1',
+      name: 'El Gallo',
+      cuisine: 'Mexican',
+      city: 'Portland, OR',
+      reviews: expect.any(Array),
+    });
+  });
   afterAll(() => {
     pool.end();
   });
