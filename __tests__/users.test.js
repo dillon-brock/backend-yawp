@@ -72,6 +72,24 @@ describe('user routes', () => {
     const res = await agent.get('/api/v1/users');
     expect(res.status).toBe(403);
   });
+  it('should return profile information with nested reviews posted by user', async () => {
+    await agent
+      .post('/api/v1/users/sessions')
+      .send({ email: 'db@email.com', password: 'abc123' });
+    const res = await agent.get('/api/v1/users/profile');
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual({
+      id: expect.any(String),
+      email: 'db@email.com',
+      firstName: 'Dillon',
+      lastName: 'B',
+      reviews: expect.any(Array),
+    });
+  });
+  it('should give a 401 error if a non-authenticated user tries to view profile', async () => {
+    const res = await request(app).get('/api/v1/users/profile');
+    expect(res.status).toBe(401);
+  });
   afterAll(() => {
     pool.end();
   });
