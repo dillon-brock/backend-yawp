@@ -113,6 +113,28 @@ describe('restaurant and review routes', () => {
     const res = await request(app).delete('/api/v1/reviews/3');
     expect(res.status).toBe(401);
   });
+  it('should return restaurants with cuisine specified in search parameters', async () => {
+    const res = await request(app).get(
+      '/api/v1/restaurants/search?cuisine=mexican'
+    );
+    expect(res.status).toBe(200);
+    expect(res.body[0]).toEqual({
+      id: expect.any(String),
+      name: expect.any(String),
+      cuisine: 'Mexican',
+      city: expect.any(String),
+    });
+  });
+  it('should return restaurants with a name specified in search parameters', async () => {
+    const res = await request(app).get('/api/v1/restaurants/search?name=green');
+    expect(res.status).toBe(200);
+    expect(res.body[0]).toEqual({
+      id: '2',
+      name: 'Green Elephant',
+      cuisine: 'Thai',
+      city: 'Portland, ME',
+    });
+  });
   afterAll(() => {
     pool.end();
   });
