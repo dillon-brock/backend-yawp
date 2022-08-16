@@ -21,9 +21,9 @@ INSERT INTO restaurants (name, cuisine, city) VALUES
 CREATE TABLE yawp_users (
   id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   first_name TEXT NOT NULL,
-  last_name TEXT NOT NULL,
+  last_name TEXT,
   email TEXT UNIQUE NOT NULL,
-  password_hash TEXT NOT NULL
+  password_hash TEXT
 );
 
 INSERT INTO yawp_users (first_name, last_name, email, password_hash) VALUES
