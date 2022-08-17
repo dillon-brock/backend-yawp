@@ -48,7 +48,7 @@ describe('restaurant and review routes', () => {
   it('should add a new review if user is signed in', async () => {
     const review = {
       stars: 1,
-      description:
+      detail:
         'I worked here for a year and it was the most misogynistic environment I ever experienced, which is saying something for the Portland food service scene.',
     };
     await agent.post('/api/v1/users').send(bob);
@@ -64,7 +64,7 @@ describe('restaurant and review routes', () => {
   it('should give a 401 error if non-authenticated user tries to post review', async () => {
     const review = {
       stars: 4,
-      description: 'this will not be posted',
+      detail: 'this will not be posted',
     };
     const res = await request(app)
       .post('/api/v1/restaurants/3/reviews')
@@ -78,7 +78,7 @@ describe('restaurant and review routes', () => {
     expect(res.body).toEqual({
       id: '1',
       stars: 5,
-      description: 'Best burrito ever!!',
+      detail: 'Best burrito ever!!',
       userId: '1',
       restaurantId: '1',
     });
@@ -87,7 +87,7 @@ describe('restaurant and review routes', () => {
   it('should delete a review if user is the one who created the review', async () => {
     const review = {
       stars: 1,
-      description: 'There were no burgers on the menu',
+      detail: 'There were no burgers on the menu',
     };
     await agent.post('/api/v1/users').send(bob);
     const postedReview = await agent
@@ -98,7 +98,7 @@ describe('restaurant and review routes', () => {
     expect(res.body).toEqual({
       id: expect.any(String),
       stars: 1,
-      description: 'There were no burgers on the menu',
+      detail: 'There were no burgers on the menu',
       restaurantId: '2',
       userId: expect.any(String),
     });

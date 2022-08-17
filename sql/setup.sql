@@ -34,14 +34,14 @@ INSERT INTO yawp_users (first_name, last_name, email, password_hash) VALUES
 CREATE TABLE reviews (
   id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   stars SMALLINT NOT NULL CONSTRAINT five_stars CHECK(stars >= 0 AND stars <= 5),
-  description TEXT,
+  detail TEXT,
   restaurant_id BIGINT NOT NULL,
   user_id BIGINT NOT NULL,
   FOREIGN KEY (restaurant_id) REFERENCES restaurants(id),
   FOREIGN KEY (user_id) REFERENCES yawp_users(id)
 );
 
-INSERT INTO reviews (stars, description, restaurant_id, user_id) VALUES 
+INSERT INTO reviews (stars, detail, restaurant_id, user_id) VALUES 
 (5, 'Best burrito ever!!', 1, 1),
 (3, 'My tacos were great, but my partner said their burrito was dry and pretty salty, and the beer was overpriced.', 1, 2),
 (5, 'This is my go to spot for vegetarian Thai food', 2, 3),
