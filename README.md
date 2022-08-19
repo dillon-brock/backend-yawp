@@ -7,7 +7,7 @@ If you work on more than one feature at a time, you are guaranteed to multiply y
 
 ## Scripts
 
-| command                | description                                                                         |
+| command                | detail                                                                              |
 | ---------------------- | ----------------------------------------------------------------------------------- |
 | `npm start`            | starts the app - should only be used in production as changes will not get reloaded |
 | `npm run start:watch`  | runs the app using `nodemon` which watches for changes and reloads the app          |

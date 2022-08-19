@@ -22,3 +22,7 @@ jobs:
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           SALT_ROUNDS: ${{ secrets.SALT_ROUNDS }}
           COOKIE_NAME: ${{ secrets.COOKIE_NAME }}
+          GGL_CLIENT_ID: ${{ secrets.GGL_CLIENT_ID }}
+          GGL_CLIENT_SECRET: ${{ secrets.GGL_CLIENT_SECRET }}
+          GGL_REDIRECT_URI: ${{ secrets.GGL_REDIRECT_URI }}
+          GGL_SCOPE: ${{ secrets.GGL_SCOPE }}
